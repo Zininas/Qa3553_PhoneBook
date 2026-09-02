@@ -23,7 +23,7 @@ def test_login_with_wrong_email(driver):
     login_page.fill_password(VALID_PASSWORD)
     login_page.submit_login()
 
-    assert login_page.get_alert_text() == "Wrong email or password"
+    assert login_page.g== "Wrong email or password"
     login_page.accept_alert()
 
 def test_login_with_wrong_password(driver):
