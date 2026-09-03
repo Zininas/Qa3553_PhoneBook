@@ -1,9 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from pages.base_page import BasePage
-
 
 class ContactPage(BasePage):
     ADD_NAV_LINK = (By.CSS_SELECTOR, "[href = '/add']")
@@ -14,6 +10,7 @@ class ContactPage(BasePage):
     ADDRESS_INPUT = (By.CSS_SELECTOR, "input[placeholder='Address']")
     DESCRIPTION_INPUT = (By.CSS_SELECTOR, "input[placeholder='description']")
     SAVE_BTN = (By.XPATH, "//button[b[text()='Save']]")
+    CONTACT_NAV_LINK = (By.CSS_SELECTOR, "[href='/contacts']")
 
     # def __init__(self, driver):
     #     self.driver = driver
@@ -52,7 +49,7 @@ class ContactPage(BasePage):
         # self.driver.find_element(*self.DESCRIPTION_INPUT).send_keys(description)
         self.fill(self.DESCRIPTION_INPUT, description)
 
-    def fill_contact(self, contact):
+    def fill_contact_form(self, contact):
         self.fill_name(contact.name)
         self.fill_last_name(contact.last_name)
         self.fill_phone(contact.phone)
@@ -63,12 +60,11 @@ class ContactPage(BasePage):
     def submit_contact(self):
         self.driver.find_element(*self.SAVE_BTN).click()
 
-    def contact_card_visible(self,phone):
-        locator = (By.XPATH, f"//h3[text()='{phone}']")
-        element = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located(locator))
-        return element.is_displayed()
+    def is_add_button_active(self):
+        add_link = self.find(self.ADD_NAV_LINK)
+        return "active" in add_link.get_attribute("class")
 
-    def open_contact_details(self, phone):
-        card = self.driver.find_element(By.XPATH, f"//h3[text()='{phone}']/..")
-        card.click()
+    def create_contact_steps(self, contact):
+        self.open_contact_form()
+        self.fill_contact_form(contact)
+        self.submit_contact()

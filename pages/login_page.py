@@ -32,7 +32,7 @@ class LoginPage(BasePage):
 
     def submit_login(self):
         # self.driver.find_element(*self.LOGIN_BTN).click()
-        self.click(self.SIGN_OUT_BTN)
+        self.click(self.LOGIN_BTN)
 
     # def is_logged(self):
     #     try:
